@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun TitleView(titleText:String){
     Row(
-        modifier = Modifier.padding(end = 8.dp, top = 24.dp, bottom = 16.dp),
+        modifier = Modifier.padding( top = 24.dp, bottom = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

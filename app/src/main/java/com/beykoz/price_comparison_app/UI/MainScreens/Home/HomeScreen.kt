@@ -26,6 +26,8 @@ import com.beykoz.price_comparison_app.UI.Common.TopAppBars.MainTopBar.MainTopBa
 import com.beykoz.price_comparison_app.UI.MainScreens.Home.Views.HeaderView
 import com.beykoz.price_comparison_app.UI.Navigation.NavigationBarView
 import com.beykoz.price_comparison_app.R
+import com.beykoz.price_comparison_app.UI.MainScreens.Home.Views.PhoneView
+
 @Composable
 fun HomeScreen(navController: NavController){
     Scaffold(
@@ -38,24 +40,15 @@ fun HomeScreen(navController: NavController){
                .padding(paddingValues))
            {
                HeaderView()
-               Column {
-                   Box(modifier = Modifier.size(60.dp)){
-                       AsyncImage(
-                           model = "https://resim.epey.com/997845/b_tecno-camon-40-pro-1.png",
-                           placeholder = painterResource(R.drawable.ic_launcher_background),
-                           contentDescription = "The delasign logo",
-                           contentScale = ContentScale.Fit,
-                           error = painterResource(R.drawable.ic_launcher_foreground),
-                           modifier = Modifier.fillMaxSize()
-                       )
-
-                   }
+               Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                    TitleView("Recently Added")
-                   TitleView("Recently Viewed")
+                   PhoneView()
                    TitleView("Most Popular")
+                   PhoneView()
                    TitleView("Biggest Price Drops")
-                   TitleView("Apple Products")
-                   TitleView("Samsung Products")
+                   PhoneView()
+                   TitleView("Recently Viewed")
+                   PhoneView()
                }
            }
         }

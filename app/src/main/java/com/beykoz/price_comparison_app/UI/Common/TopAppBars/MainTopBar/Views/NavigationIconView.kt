@@ -12,13 +12,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.beykoz.price_comparison_app.UI.Common.ModelDrawer.drawerState
 import com.beykoz.price_comparison_app.UI.Theme.DarkPurple
 import com.beykoz.price_comparison_app.UI.Theme.Purple
 import kotlinx.coroutines.launch
 
 @Composable
 fun NavigationIconView(navController: NavController) {
-    IconButton(onClick = {navController.popBackStack()}){
+    val coroutineScope = rememberCoroutineScope()
+    IconButton(onClick = {
+        coroutineScope.launch {
+            drawerState.apply {
+                if (isClosed) open() else close()
+            }
+        }
+    }){
         Icon(
             modifier = Modifier.size(30.dp),
             tint = MaterialTheme.colorScheme.primary,

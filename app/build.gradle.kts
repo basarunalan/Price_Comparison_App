@@ -40,6 +40,10 @@ android {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("com.seanproctor:data-table-material3:0.10.0")
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("io.github.ehsannarmani:compose-charts:0.1.2")
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.bottombar) // navigation bar library

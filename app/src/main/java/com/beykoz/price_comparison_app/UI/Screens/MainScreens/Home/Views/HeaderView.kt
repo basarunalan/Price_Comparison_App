@@ -1,4 +1,4 @@
-package com.beykoz.price_comparison_app.UI.MainScreens.Home.Views
+package com.beykoz.price_comparison_app.UI.Screens.MainScreens.Home.Views
 
 import android.util.Log
 import androidx.compose.animation.core.FastOutLinearInEasing
@@ -45,12 +45,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun HeaderView(){
-    val itemList = listOf(
-        "https://ae.pricenacdn.com/images/default/banners/iphone16_price.jpg",
-        "https://ae.pricenacdn.com/images/default/banners/galaxy_Z_flip5_en.jpg")
-
-    val pagerState = rememberPagerState(pageCount = { 5 })
+fun HeaderView(contentList: List<String>){
+    val pagerState = rememberPagerState(pageCount = { contentList.size })
 
     Box(
         modifier = Modifier
@@ -72,7 +68,7 @@ fun HeaderView(){
                     .padding(horizontal = 20.dp, vertical = 8.dp))
             {
                 AsyncImage(
-                    model = itemList[0],
+                    model = contentList[index],
                     placeholder = painterResource(R.drawable.ic_launcher_background),
                     contentDescription = "The delasign logo",
                     contentScale = ContentScale.FillBounds,
@@ -86,7 +82,7 @@ fun HeaderView(){
                 .offset(0.dp,130.dp)
                 .align(Alignment.CenterHorizontally)
         ) {
-            repeat(5) { iteration ->
+            repeat(contentList.size) { iteration ->
                 val color = if (pagerState.currentPage == iteration) Green else Color.LightGray
                 Box(
                     modifier = Modifier
@@ -102,7 +98,7 @@ fun HeaderView(){
         launch {
             delay(3000)
             with(pagerState) {
-                val target = if (currentPage < 5 - 1) currentPage + 1 else 0
+                val target = if (currentPage < contentList.size - 1) currentPage + 1 else 0
                 animateScrollToPage(
                     page = target,
                     animationSpec = tween(

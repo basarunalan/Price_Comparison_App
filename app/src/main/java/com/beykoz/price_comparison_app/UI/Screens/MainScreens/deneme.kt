@@ -1,4 +1,4 @@
-package com.beykoz.price_comparison_app.UI.MainScreens
+package com.beykoz.price_comparison_app.UI.Screens.MainScreens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,10 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import com.beykoz.price_comparison_app.UI.Common.Titles.TitleView
 import com.beykoz.price_comparison_app.UI.Common.TopAppBars.MainTopBar.MainTopBar
-import com.beykoz.price_comparison_app.UI.MainScreens.Home.Views.HeaderView
 import com.beykoz.price_comparison_app.UI.Navigation.NavigationBarView
 
 @Composable

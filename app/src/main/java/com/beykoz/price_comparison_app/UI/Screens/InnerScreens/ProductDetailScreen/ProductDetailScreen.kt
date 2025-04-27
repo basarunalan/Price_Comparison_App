@@ -1,7 +1,5 @@
 package com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ProductDetailScreen
 
-import android.util.Log
-import android.widget.Space
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +17,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.beykoz.price_comparison_app.UI.Common.TopAppBars.InnerTopBar.InnerTopBar
@@ -29,7 +26,6 @@ import com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ProductDetailScre
 import com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ProductDetailScreen.Views.StorePricesView
 import com.beykoz.price_comparison_app.UI.Theme.Purple
 import com.beykoz.price_comparison_app.ViewModels.DetailPageViewModel
-import kotlinx.coroutines.launch
 
 @Composable
 fun ProductDetailScreen(productID:String,navController: NavController){
@@ -42,7 +38,7 @@ fun ProductDetailScreen(productID:String,navController: NavController){
     }
 
     Scaffold(
-        topBar = { InnerTopBar(navController) },
+        topBar = { InnerTopBar(productID,navController) },
         content = { paddingValues ->
             if(detailPageData == null){
                 Box(

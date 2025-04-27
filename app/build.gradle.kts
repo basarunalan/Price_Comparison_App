@@ -25,6 +25,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -40,6 +41,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.compose.material:material:1.6.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.seanproctor:data-table-material3:0.10.0")
     implementation("com.google.code.gson:gson:2.10.1")

@@ -13,14 +13,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.beykoz.price_comparison_app.Data.Local.UserFavouritesData
 
 @Composable
-fun ActionIconView(){
-    var isFavourite by remember { mutableStateOf(false) }
+fun ActionIconView(productID: String) {
+    var isFavourite by remember { mutableStateOf(UserFavouritesData.isFavourite(productID)) }
     IconButton(onClick = {
         isFavourite = !isFavourite
+        UserFavouritesData.addOrRemoveFavourite(productID)
     })
     {
        Icon(

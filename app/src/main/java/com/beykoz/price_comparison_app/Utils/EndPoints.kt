@@ -6,4 +6,6 @@ object EndPoints {
     const val homePageURL = "${BASE_URL}/home.json"
 
     const val detailPageURL = "${BASE_URL}/detail/"
+
+    const val favouritesPageURL = "${BASE_URL}/favourites.json"
 }

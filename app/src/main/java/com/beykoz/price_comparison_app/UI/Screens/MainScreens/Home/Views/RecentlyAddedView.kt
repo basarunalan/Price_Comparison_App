@@ -86,6 +86,7 @@ private fun ContentView(item: RecentlyAdded,navController: NavController){
                 Row {
                     DetailAndBarChartView(
                         item.screen_size
+                        ,"inches"
                         ,maxValue = 8
                         ,modifier = Modifier
                         .fillMaxWidth()
@@ -93,6 +94,7 @@ private fun ContentView(item: RecentlyAdded,navController: NavController){
                         .weight(0.5f))
                     DetailAndBarChartView(
                         item.storage.toDouble()
+                        ,"GB"
                         ,maxValue = 1024
                         ,modifier = Modifier
                         .fillMaxWidth()
@@ -102,6 +104,7 @@ private fun ContentView(item: RecentlyAdded,navController: NavController){
                 Row {
                     DetailAndBarChartView(
                         item.ram.toDouble()
+                        ,"GB"
                         ,maxValue = 24
                         ,modifier = Modifier
                         .fillMaxWidth()
@@ -109,6 +112,7 @@ private fun ContentView(item: RecentlyAdded,navController: NavController){
                         .weight(0.5f))
                     DetailAndBarChartView(
                         item.battery.toDouble(),
+                        "mAh",
                         maxValue = 13000
                         ,modifier = Modifier
                         .fillMaxWidth()
@@ -138,6 +142,7 @@ private fun ImageView(ImagePath:String,modifier: Modifier){
 @Composable
 private fun DetailAndBarChartView(
     currentValue: Double,
+    label:String,
     maxValue: Int,
     modifier: Modifier = Modifier
 ) {

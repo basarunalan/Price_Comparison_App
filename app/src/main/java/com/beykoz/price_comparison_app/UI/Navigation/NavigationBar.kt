@@ -55,7 +55,7 @@ fun NavigationBarView(selectedItem:Int = 0,navController: NavController) {
                         selectedItemIndex = index
                         when (index) {
                             0 -> navController.navigate("Home")
-                            //1 -> navController.navigate("deneme")
+                            1 -> navController.navigate("Favourites")
                         }
                     }},
                 imageVector = navigationItem.second,

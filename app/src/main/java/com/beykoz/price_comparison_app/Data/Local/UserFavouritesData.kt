@@ -2,6 +2,7 @@ package com.beykoz.price_comparison_app.Data.Local
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.core.content.edit
 import com.beykoz.price_comparison_app.Data.Local.UserFavouritesData.sharedPreferences
 

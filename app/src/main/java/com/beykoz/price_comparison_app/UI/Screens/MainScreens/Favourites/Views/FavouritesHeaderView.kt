@@ -35,19 +35,20 @@ import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.beykoz.price_comparison_app.Data.Remote.Models.Favourites.FavouritesResponseModelItem
+import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Favourites.favouriteList
 import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Favourites.selectedIndex
 
 var filteredList by mutableStateOf(emptyList<FavouritesResponseModelItem>())
 
 @Composable
-fun FavouritesHeaderView(dataList: List<FavouritesResponseModelItem>,filterState: Boolean, setFilterState: (Boolean) -> Unit) {
+fun FavouritesHeaderView(filterState: Boolean, setFilterState: (Boolean) -> Unit) {
     var text by remember { mutableStateOf("") }
 
-    filteredList = remember(text, dataList, selectedIndex) {
+    filteredList = remember(text, favouriteList, selectedIndex) {
         val filtered = if (text.isNotEmpty()) {
-            dataList.filter { it.name.contains(text, ignoreCase = true) }
+            favouriteList.filter { it.name.contains(text, ignoreCase = true) }
         } else {
-            dataList
+            favouriteList
         }
 
         when (selectedIndex) {

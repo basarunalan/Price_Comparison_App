@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.beykoz.price_comparison_app.Data.Local.UserFavouritesData
+import com.beykoz.price_comparison_app.Data.Remote.Models.Favourites.FavouritesResponseModelItem
 import com.beykoz.price_comparison_app.UI.Common.TopAppBars.MainTopBar.MainTopBar
 import com.beykoz.price_comparison_app.UI.Navigation.NavigationBarView
 import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Favourites.Views.FavouriteProductView
@@ -46,6 +47,7 @@ import com.beykoz.price_comparison_app.UI.Theme.Green
 import com.beykoz.price_comparison_app.UI.Theme.Purple
 import com.beykoz.price_comparison_app.ViewModels.FavouritesPageViewModel
 
+var favouriteList by mutableStateOf(emptyList<FavouritesResponseModelItem>())
 
 @Composable
 fun FavouritesScreen(navController: NavController ){
@@ -65,7 +67,7 @@ fun FavouritesScreen(navController: NavController ){
                 }
             } else {
                 favouritesPageData?.let { data ->
-                    val favouriteList = data.filter { it.productID in UserFavouritesData.getFavourites()}
+                    favouriteList = data.filter { it.productID in UserFavouritesData.getFavourites()}
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -73,7 +75,6 @@ fun FavouritesScreen(navController: NavController ){
                             .padding(paddingValues)
                     ) {
                          FavouritesHeaderView(
-                             favouriteList,
                              filterState = showSorterSheet,
                              setFilterState = { showSorterSheet = it }
                         )

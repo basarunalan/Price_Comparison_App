@@ -20,7 +20,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -124,8 +127,9 @@ private fun ImageView(ImagePath:String,modifier: Modifier){
 
 @Composable
 fun PriceWeeklyLineChart(weeklyReturn:Double,dataset: List<Double>){
+    var min by remember { mutableStateOf(dataset.min())  }
     LineChart(
-        minValue = dataset.min(),
+        minValue = min,
         popupProperties = PopupProperties(false),
         animationDelay = 0,
         indicatorProperties = HorizontalIndicatorProperties(false),

@@ -97,9 +97,9 @@ private fun ContentView(item: BiggestPriceDrop,navController: NavController){
                     .fillMaxSize()
                     .padding(8.dp)
                     .weight(0.35f)) {
-                Text(item.price, fontSize = 14.sp)
+                Text(item.price, fontSize = 16.sp)
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start){
+                    horizontalArrangement = Arrangement.End){
                     Icon(
                         imageVector = if (item.price_changes_percentage.last() > 0 ) Icons.Filled.ArrowDropUp else Icons.Filled.ArrowDropDown,
                         contentDescription = "",

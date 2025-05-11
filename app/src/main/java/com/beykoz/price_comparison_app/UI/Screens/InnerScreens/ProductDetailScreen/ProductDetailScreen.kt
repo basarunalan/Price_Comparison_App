@@ -61,15 +61,16 @@ fun ProductDetailScreen(
                             //StorePricesView(data.stores)
                             PriceHistoryView(convertDouble(data.features?.get("price") ?: "0.0"),data.daily_return)
                             data.display?.let { InformationTableView("Display",it) }
-                            data.launch?.let { InformationTableView("Hardware",it) }
-                            data.body?.let { InformationTableView("Design",it) }
+                            data.body?.let { InformationTableView("Body",it) }
                             data.features?.let { InformationTableView("Features",it) }
                             data.battery?.let { InformationTableView("Battery",it) }
                             data.camera?.let { InformationTableView("Camera",it) }
-                            data.tests?.let { InformationTableView("General Information",it) }
-                            data.memory?.let { InformationTableView("General Information",it) }
-                            data.network?.let { InformationTableView("General Information",it) }
-                            data.platform?.let { InformationTableView("General Information",it) }
+                            data.tests?.let { InformationTableView("Tests",it) }
+                            data.memory?.let { InformationTableView("Memory",it) }
+                            data.network?.let { InformationTableView("Network",it) }
+                            data.platform?.let { InformationTableView("Platform",it) }
+                            data.comms?.let { InformationTableView("Communication",it) }
+                            data.launch?.let { InformationTableView("Launch",it) }
                             Spacer(modifier = Modifier.height(40.dp))
                         }
                     }

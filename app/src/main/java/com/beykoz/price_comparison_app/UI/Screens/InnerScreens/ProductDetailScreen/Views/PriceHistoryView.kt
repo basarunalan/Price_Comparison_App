@@ -109,7 +109,7 @@ private fun LineChartView(prices:List<Double>, dates:List<String>, dailyReturn:D
 
 fun generateSmoothData(
     baseValue: Double,
-    fluctuation: Double = 100.0,
+    fluctuation: Double = 1.0,
     count: Int = 200
 ): List<Double> {
     val dataList = mutableListOf<Double>()

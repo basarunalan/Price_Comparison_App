@@ -74,7 +74,6 @@ private fun ContentView(item: MostPopular,navController: NavController){
                 Row {
                     DetailAndBarChartView(
                         convertDouble(item.screen_size)
-                        ,"inches"
                         ,maxValue = 8
                         ,modifier = Modifier
                             .fillMaxWidth()
@@ -82,7 +81,6 @@ private fun ContentView(item: MostPopular,navController: NavController){
                             .weight(0.5f))
                     DetailAndBarChartView(
                         convertDouble(item.storage)
-                        ,"GB"
                         ,maxValue = 1024
                         ,modifier = Modifier
                             .fillMaxWidth()
@@ -93,15 +91,13 @@ private fun ContentView(item: MostPopular,navController: NavController){
                 Row {
                     DetailAndBarChartView(
                         convertDouble(item.ram)
-                        ,"GB"
                         ,maxValue = 24
                         ,modifier = Modifier
                             .fillMaxWidth()
                             .padding(end = 8.dp)
                             .weight(0.5f))
                     DetailAndBarChartView(
-                        convertDouble(item.ram),
-                        "mAh"
+                        convertDouble(item.ram)
                         ,maxValue = 13000
                         ,modifier = Modifier
                             .fillMaxWidth()

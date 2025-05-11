@@ -67,7 +67,7 @@ fun FavouritesScreen(navController: NavController ){
                 }
             } else {
                 favouritesPageData?.let { data ->
-                    favouriteList = data.filter { it.productID in UserFavouritesData.getFavourites()}
+                    favouriteList = data.filter { it.product_code in UserFavouritesData.getFavourites()}
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -113,8 +113,6 @@ private fun BottomSheetView(setFilterState: (Boolean) -> Unit) {
         onDismissRequest = { setFilterState(false) },
         sheetState = rememberModalBottomSheetState(),
     ){
-
-
         sortingHeaders.forEachIndexed  { index,label ->
             Row(
                 modifier = Modifier
@@ -122,8 +120,7 @@ private fun BottomSheetView(setFilterState: (Boolean) -> Unit) {
                     .padding(start = 16.dp, end = 8.dp)
                     .clickable(onClick = {
                         selectedIndex = index
-                    }
-                    ),
+                    }),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {

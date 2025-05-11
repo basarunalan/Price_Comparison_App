@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.beykoz.price_comparison_app.Data.Remote.Models.Favourites.FavouritesResponseModelItem
 import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Favourites.favouriteList
 import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Favourites.selectedIndex
+import com.beykoz.price_comparison_app.Utils.convertInt
 
 var filteredList by mutableStateOf(emptyList<FavouritesResponseModelItem>())
 
@@ -46,20 +47,22 @@ fun FavouritesHeaderView(filterState: Boolean, setFilterState: (Boolean) -> Unit
 
     filteredList = remember(text, favouriteList, selectedIndex) {
         val filtered = if (text.isNotEmpty()) {
-            favouriteList.filter { it.name.contains(text, ignoreCase = true) }
+            favouriteList.filter { it.model_name.contains(text, ignoreCase = true) }
         } else {
             favouriteList
         }
 
         when (selectedIndex) {
-            0 -> filtered.sortedByDescending { it.DailyReturn }
-            1 -> filtered.sortedBy { it.DailyReturn }
-            2 -> filtered.sortedBy { it.price }
-            3 -> filtered.sortedByDescending { it.price }
-            4 -> filtered.sortedBy { it.name.uppercase() }
+            0 -> filtered.sortedByDescending { it.daily_return }
+            1 -> filtered.sortedBy { it.daily_return }
+            2 -> filtered.sortedBy { convertInt(it.price) }
+            3 -> filtered.sortedByDescending { convertInt(it.price) }
+            4 -> filtered.sortedBy { it.model_name.uppercase() }
             else -> filtered
         }
     }
+
+    Log.e("filtered", filteredList.toString())
 
 
     Box(

@@ -15,9 +15,11 @@ object NavigationHostData {
             composable("Home") { HomeScreen(navController) }
             composable("Favourites") { FavouritesScreen(navController) }
             composable("DetailScreen/{productID}") { backStackEntry ->
-                val productID = backStackEntry.arguments?.getString("productID")
-                val finalProductID = if (productID.isNullOrEmpty()) { "001" } else { productID }
-                ProductDetailScreen(finalProductID, navController)
+                val productID = backStackEntry.arguments?.getString("productID") ?: "p001"
+                ProductDetailScreen(
+                    productID = productID,
+                    navController = navController
+                )
             }
         }
     }

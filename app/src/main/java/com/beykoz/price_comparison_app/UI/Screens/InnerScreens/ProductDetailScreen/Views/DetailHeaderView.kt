@@ -1,9 +1,7 @@
 package com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ProductDetailScreen.Views
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -38,14 +36,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.net.toUri
 import coil.compose.AsyncImage
 import com.beykoz.price_comparison_app.Data.Remote.Models.Detail.DetailPageResponseModel
-import com.beykoz.price_comparison_app.Data.Remote.Models.Detail.Store
 import com.beykoz.price_comparison_app.Data.Remote.Models.Detail.color
 import com.beykoz.price_comparison_app.R
 import com.beykoz.price_comparison_app.UI.Common.Indicators.CustomProgressIndicator
+import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Home.Views.DetailAndBarChartView
 import com.beykoz.price_comparison_app.UI.Theme.Purple
+import com.beykoz.price_comparison_app.Utils.convertDouble
 
 @Composable
 fun DetailHeaderView(data: DetailPageResponseModel) {
@@ -58,11 +56,11 @@ fun DetailHeaderView(data: DetailPageResponseModel) {
     {
         Row {
             ImageView(
-                data.image,
+                data.image_url ?: "",
                 modifier = Modifier
                     .fillMaxSize()
-                    .weight(0.35f)
-                    .padding(8.dp)
+                    .weight(0.4f)
+                    .padding(horizontal = 8.dp)
             )
             Column(modifier = Modifier
                 .fillMaxSize()
@@ -72,7 +70,7 @@ fun DetailHeaderView(data: DetailPageResponseModel) {
                 Row(verticalAlignment = Alignment.CenterVertically)
                 {
                     Text(
-                        data.name,
+                        data.model_name,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         overflow = TextOverflow.Ellipsis,
@@ -80,7 +78,7 @@ fun DetailHeaderView(data: DetailPageResponseModel) {
                         maxLines = 2
                     )
                     CustomProgressIndicator(
-                        canvasSize = 60.dp,indicatorValue = data.rating, maxIndicatorValue = 120,
+                        canvasSize = 60.dp,indicatorValue = data.rating.toInt(), maxIndicatorValue = 120,
                         backgroundIndicatorStrokeWidth = 20f, foregroundIndicatorStrokeWidth = 20f,
                         backgroundIndicatorColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.25f),
                         foregroundColor = MaterialTheme.colorScheme.primary
@@ -89,42 +87,56 @@ fun DetailHeaderView(data: DetailPageResponseModel) {
 
                 Row {
                     DetailAndBarChartView(
-                        data.specifications.display[0].name,
-                        data.specifications.display[0].value,
+                        convertDouble(data.display?.get("size") ?: "0.0"),
+                        "Screen Size", maxValue = 8,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(end = 8.dp)
                             .weight(0.5f)
+                        ,labelColor = Color.Gray
                     )
                     DetailAndBarChartView(
-                        data.specifications.hardware[3].name,
-                        data.specifications.hardware[3].value,
-                        modifier = Modifier
+                        convertDouble(data.memory?.get("internal") ?: "0.0")
+                        ,"Internal Storage"
+                        ,maxValue = 1024
+                        ,modifier = Modifier
                             .fillMaxWidth()
                             .padding(end = 8.dp)
                             .weight(0.5f)
+                        ,labelColor = Color.Gray
                     )
                 }
                 Row {
                     DetailAndBarChartView(
-                        data.specifications.hardware[2].name,
-                        data.specifications.hardware[2].value,
-                        modifier = Modifier
+                        convertDouble(data.memory?.get("internal") ?: "0.0")
+                        ,"Memory (Ram)"
+                        ,maxValue = 24
+                        ,modifier = Modifier
                             .fillMaxWidth()
                             .padding(end = 8.dp)
                             .weight(0.5f)
+                        ,labelColor = Color.Gray
                     )
                     DetailAndBarChartView(
-                        data.specifications.battery[0].name,
-                        data.specifications.battery[0].value,
-                        modifier = Modifier
+                        convertDouble("4500.0"),
+                        "Battery Capacity"
+                        ,maxValue = 13000
+                        ,modifier = Modifier
                             .fillMaxWidth()
                             .padding(end = 8.dp)
                             .weight(0.5f)
+                        ,labelColor = Color.Gray
                     )
                 }
-                ColorsView(data.colors)
-                BestPriceButton(data.stores.first())
+                val sampleColorList = listOf(
+                    color(hex = "#FF5733", name = "Red Orange"),
+                    color(hex = "#33FF57", name = "Lime Green"),
+                    color(hex = "#3357FF", name = "Royal Blue"),
+                    color(hex = "#F1C40F", name = "Sunflower"),
+                    color(hex = "#8E44AD", name = "Purple Haze")
+                )
+                ColorsView(colorList = sampleColorList)
+                BestPriceButton("$ ${convertDouble(data.features?.get("price") ?: "0.0")}")
             }
         }
     }
@@ -156,31 +168,28 @@ private fun ColorsView(colorList:List<color>){
 }
 
 @Composable
-private fun BestPriceButton(item: Store) {
+private fun BestPriceButton(price: String) {
     val context = LocalContext.current
     Row(verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .height(50.dp)
             .background(MaterialTheme.colorScheme.background, RoundedCornerShape(8.dp))
-            .clickable {
+            .padding(horizontal = 8.dp)
+            /*.clickable {
                 val intent = Intent(Intent.ACTION_VIEW, item.url.toUri())
                 context.startActivity(intent)
-            }
+            }*/
     )
     {
-        ImageView(item.logo,
-            modifier = Modifier
-                .fillMaxSize()
-                .weight(0.3f)
-                .padding(8.dp))
-        Text("${item.price} ₺", fontSize = 18.sp, fontWeight = FontWeight.Medium,
+        Text(
+            price, fontSize = 20.sp, fontWeight = FontWeight.Medium,
             modifier = Modifier.weight(0.4f))
         Icon(
             imageVector = Icons.Filled.ArrowOutward,
             contentDescription = "",
             modifier = Modifier
-                .size(30.dp)
+                .size(32.dp)
                 .padding(end = 4.dp),
             tint = MaterialTheme.colorScheme.primary
         )

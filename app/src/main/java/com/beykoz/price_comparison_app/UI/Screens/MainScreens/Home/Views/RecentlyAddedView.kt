@@ -1,7 +1,6 @@
 package com.beykoz.price_comparison_app.UI.Screens.MainScreens.Home.Views
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
@@ -25,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -38,9 +35,9 @@ import coil.compose.AsyncImage
 import com.beykoz.price_comparison_app.Data.Remote.Models.Home.RecentlyAdded
 import com.beykoz.price_comparison_app.R
 import com.beykoz.price_comparison_app.UI.Common.Titles.TitleView
-import com.beykoz.price_comparison_app.UI.Theme.DarkPurple
 import com.beykoz.price_comparison_app.UI.Theme.Green
-import com.beykoz.price_comparison_app.UI.Theme.Purple
+import com.beykoz.price_comparison_app.Utils.convertDouble
+import com.beykoz.price_comparison_app.Utils.encoder
 
 @Composable
 fun RecentlyAddedView(itemList: List<RecentlyAdded>,navController: NavController){
@@ -50,8 +47,9 @@ fun RecentlyAddedView(itemList: List<RecentlyAdded>,navController: NavController
             ContentView(item,navController)
         }
     }
-
 }
+
+
 
 @Composable
 private fun ContentView(item: RecentlyAdded,navController: NavController){
@@ -62,9 +60,10 @@ private fun ContentView(item: RecentlyAdded,navController: NavController){
         .background(MaterialTheme.colorScheme.primary)
         .clickable { navController.navigate("DetailScreen/${item.id}") }
 
+
     ){
         Row {
-            ImageView(item.image_url,
+            ImageView(item.image_url ?: "",
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(0.3f)
@@ -85,16 +84,18 @@ private fun ContentView(item: RecentlyAdded,navController: NavController){
                 )
                 Row {
                     DetailAndBarChartView(
-                        item.screen_size
-                        ,"inches"
+                        convertDouble(item.screen_size)
+                        ,null
+                        ,Color.White
                         ,maxValue = 8
                         ,modifier = Modifier
                         .fillMaxWidth()
                         .padding(end = 8.dp)
                         .weight(0.5f))
                     DetailAndBarChartView(
-                        item.storage.toDouble()
-                        ,"GB"
+                        convertDouble(item.storage)
+                        ,null
+                        ,Color.White
                         ,maxValue = 1024
                         ,modifier = Modifier
                         .fillMaxWidth()
@@ -103,23 +104,25 @@ private fun ContentView(item: RecentlyAdded,navController: NavController){
                 }
                 Row {
                     DetailAndBarChartView(
-                        item.ram.toDouble()
-                        ,"GB"
+                        convertDouble(item.ram)
+                        ,null
+                        ,Color.White
                         ,maxValue = 24
                         ,modifier = Modifier
                         .fillMaxWidth()
                         .padding(end = 8.dp)
                         .weight(0.5f))
                     DetailAndBarChartView(
-                        item.battery.toDouble(),
-                        "mAh",
-                        maxValue = 13000
+                        convertDouble(item.ram)
+                        ,null
+                        ,Color.White
+                        ,maxValue = 13000
                         ,modifier = Modifier
                         .fillMaxWidth()
                         .padding(end = 8.dp)
                         .weight(0.5f))
                 }
-                Text("${item.price} ₺",color = Color.White)
+                Text(item.price,color = Color.White)
             }
         }
     }
@@ -140,16 +143,20 @@ private fun ImageView(ImagePath:String,modifier: Modifier){
 }
 
 @Composable
-private fun DetailAndBarChartView(
+fun DetailAndBarChartView(
     currentValue: Double,
-    label:String,
+    label: String? = null,
+    labelColor:Color = MaterialTheme.colorScheme.onBackground,
     maxValue: Int,
     modifier: Modifier = Modifier
 ) {
     val progressFraction = if (maxValue != 0) currentValue.toFloat() / maxValue else 0f
 
     Column(modifier = modifier) {
-        Text(currentValue.toString(), fontSize = 12.sp, color = Color.White)
+        Column( verticalArrangement = Arrangement.spacedBy(-8.dp)) {
+            label?.let { Text(it,fontSize = 12.sp, color = labelColor) }
+            Text(currentValue.toString(),fontSize = 12.sp,color = labelColor)
+        }
         ElevatedCard(
             elevation = CardDefaults.elevatedCardElevation(1.dp),
             shape = RoundedCornerShape(16.dp),

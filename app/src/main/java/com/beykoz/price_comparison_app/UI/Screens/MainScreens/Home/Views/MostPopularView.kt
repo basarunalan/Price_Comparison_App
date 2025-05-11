@@ -36,7 +36,10 @@ import com.beykoz.price_comparison_app.Data.Remote.Models.Home.MostPopular
 import com.beykoz.price_comparison_app.Data.Remote.Models.Home.RecentlyAdded
 import com.beykoz.price_comparison_app.R
 import com.beykoz.price_comparison_app.UI.Common.Titles.TitleView
+import com.beykoz.price_comparison_app.UI.Theme.Green
 import com.beykoz.price_comparison_app.UI.Theme.Purple
+import com.beykoz.price_comparison_app.Utils.convertDouble
+import com.beykoz.price_comparison_app.Utils.encoder
 
 @Composable
 fun MostPopularView(itemList: List<MostPopular>, navController: NavController){
@@ -55,11 +58,10 @@ private fun ContentView(item: MostPopular,navController: NavController){
         .padding(end = 12.dp)
         .clip(RoundedCornerShape(8.dp))
         .background(MaterialTheme.colorScheme.surfaceContainer)
-        .clickable { navController.navigate("DetailScreen/") }
-
+        .clickable { navController.navigate("DetailScreen/${item.id}") }
     ){
         Row {
-            ImageView(item.image_url,
+            ImageView(item.image_url ?: "",
                 modifier = Modifier.fillMaxSize().weight(0.3f).padding(8.dp))
             Column(verticalArrangement = Arrangement.SpaceBetween,modifier = Modifier.fillMaxSize().padding(8.dp).weight(0.7f)) {
                 Text(
@@ -70,14 +72,44 @@ private fun ContentView(item: MostPopular,navController: NavController){
                     maxLines = 1
                 )
                 Row {
-                    DetailAndBarChartView(item.screen_size.toString(),modifier = Modifier.fillMaxWidth().padding(end = 8.dp).weight(0.5f))
-                    DetailAndBarChartView(item.storage.toString(),modifier = Modifier.fillMaxWidth().padding(end = 8.dp).weight(0.5f))
+                    DetailAndBarChartView(
+                        convertDouble(item.screen_size)
+                        ,"inches"
+                        ,maxValue = 8
+                        ,modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 8.dp)
+                            .weight(0.5f))
+                    DetailAndBarChartView(
+                        convertDouble(item.storage)
+                        ,"GB"
+                        ,maxValue = 1024
+                        ,modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 8.dp)
+                            .weight(0.5f)
+                    )
                 }
                 Row {
-                    DetailAndBarChartView(item.ram.toString(),modifier = Modifier.fillMaxWidth().padding(end = 8.dp).weight(0.5f))
-                    DetailAndBarChartView(item.battery.toString(),modifier = Modifier.fillMaxWidth().padding(end = 8.dp).weight(0.5f))
+                    DetailAndBarChartView(
+                        convertDouble(item.ram)
+                        ,"GB"
+                        ,maxValue = 24
+                        ,modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 8.dp)
+                            .weight(0.5f))
+                    DetailAndBarChartView(
+                        convertDouble(item.ram),
+                        "mAh"
+                        ,maxValue = 13000
+                        ,modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 8.dp)
+                            .weight(0.5f)
+                    )
                 }
-                Text("${item.price} ₺")
+                Text(item.price)
             }
         }
     }
@@ -95,23 +127,3 @@ private fun ImageView(ImagePath:String,modifier: Modifier){
     )
 }
 
-@Composable
-private fun DetailAndBarChartView(label:String,modifier: Modifier){
-    Column(modifier = modifier) {
-        Text(label,fontSize = 12.sp)
-        ElevatedCard (
-            elevation = CardDefaults.elevatedCardElevation(1.dp),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.elevatedCardColors(MaterialTheme.colorScheme.background),
-            modifier = Modifier.fillMaxWidth().height(8.dp))
-        {
-            Box(modifier = Modifier
-                .fillMaxHeight()
-                .width(70.dp)
-                .padding(1.dp)
-                .clip(RoundedCornerShape(16.dp))
-                .background(Purple)
-            )
-        }
-    }
-}

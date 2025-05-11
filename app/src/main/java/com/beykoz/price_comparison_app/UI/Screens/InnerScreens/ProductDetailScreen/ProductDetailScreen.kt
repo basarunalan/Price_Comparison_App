@@ -20,15 +20,18 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.beykoz.price_comparison_app.UI.Common.TopAppBars.InnerTopBar.InnerTopBar
-import com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ProductDetailScreen.Views.InformationTableView
 import com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ProductDetailScreen.Views.DetailHeaderView
+import com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ProductDetailScreen.Views.InformationTableView
 import com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ProductDetailScreen.Views.PriceHistoryView
-import com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ProductDetailScreen.Views.StorePricesView
 import com.beykoz.price_comparison_app.UI.Theme.Purple
+import com.beykoz.price_comparison_app.Utils.convertDouble
 import com.beykoz.price_comparison_app.ViewModels.DetailPageViewModel
 
 @Composable
-fun ProductDetailScreen(productID:String,navController: NavController){
+fun ProductDetailScreen(
+    productID: String,
+    navController: NavController,
+){
 
     val detailPageViewModel: DetailPageViewModel = viewModel()
     val detailPageData by detailPageViewModel.detailPageData.collectAsState()
@@ -55,15 +58,18 @@ fun ProductDetailScreen(productID:String,navController: NavController){
                     {
                         DetailHeaderView(data)
                         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                            StorePricesView(data.stores)
-                            PriceHistoryView(data.stores.first().price,10.0)
-                            InformationTableView("Display",data.specifications.display)
-                            InformationTableView("Hardware",data.specifications.hardware)
-                            InformationTableView("Design",data.specifications.design)
-                            InformationTableView("Features",data.specifications.features)
-                            InformationTableView("Battery",data.specifications.battery)
-                            InformationTableView("Camera",data.specifications.camera)
-                            InformationTableView("General Information",data.specifications.general_info)
+                            //StorePricesView(data.stores)
+                            PriceHistoryView(convertDouble(data.features?.get("price") ?: "0.0"),data.daily_return)
+                            data.display?.let { InformationTableView("Display",it) }
+                            data.launch?.let { InformationTableView("Hardware",it) }
+                            data.body?.let { InformationTableView("Design",it) }
+                            data.features?.let { InformationTableView("Features",it) }
+                            data.battery?.let { InformationTableView("Battery",it) }
+                            data.camera?.let { InformationTableView("Camera",it) }
+                            data.tests?.let { InformationTableView("General Information",it) }
+                            data.memory?.let { InformationTableView("General Information",it) }
+                            data.network?.let { InformationTableView("General Information",it) }
+                            data.platform?.let { InformationTableView("General Information",it) }
                             Spacer(modifier = Modifier.height(40.dp))
                         }
                     }

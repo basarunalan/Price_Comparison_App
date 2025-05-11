@@ -74,9 +74,9 @@ fun FavouriteProductView(navController: NavController ) {
         } else {
             filteredList.forEach { item ->
                 ContentView(item,navController){
-                    UserFavouritesData.addOrRemoveFavourite(item.productID)
+                    UserFavouritesData.addOrRemoveFavourite(item.product_code)
                     //filteredList = filteredList.filter { it.productID != item.productID } // gerek yok
-                    favouriteList = favouriteList.filter { it.productID != item.productID }
+                    favouriteList = favouriteList.filter { it.product_code != item.product_code }
                 }
             }
         }
@@ -141,12 +141,12 @@ private fun ContentView(
                 .fillMaxSize()
                 .clip(RoundedCornerShape(8.dp))
                 .background(MaterialTheme.colorScheme.surfaceContainer)
-                .clickable { navController.navigate("DetailScreen/${item.productID}") }
+                .clickable { navController.navigate("DetailScreen/${item.product_code}") }
         ) {
             // Mevcut Row içeriğin
             Row {
                 ImageView(
-                    item.image_url,
+                    item.image_url ?:"",
                     modifier = Modifier
                         .fillMaxSize()
                         .weight(0.2f)
@@ -157,7 +157,7 @@ private fun ContentView(
                         .padding(8.dp)
                         .weight(0.7f)
                 ) {
-                    Text(item.name, fontSize = 16.sp,fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis, maxLines = 1)
+                    Text(item.model_name, fontSize = 16.sp,fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis, maxLines = 1)
                     Box(modifier = Modifier.padding(vertical = 4.dp)) {
                         PriceWeeklyLineChart(item.price_changes_percentage.last(),item.price_changes_percentage)
                     }
@@ -167,10 +167,10 @@ private fun ContentView(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(8.dp)
-                        .weight(0.35f)) {
-                    Text("${item.price} ₺", fontSize = 14.sp)
+                        .weight(0.4f)) {
+                    Text("${item.price} ₺", fontSize = 15.sp)
                     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start){
+                        horizontalArrangement = Arrangement.End){
                         Icon(
                             imageVector = if (item.price_changes_percentage.last() > 0 ) Icons.Filled.ArrowDropUp else Icons.Filled.ArrowDropDown,
                             contentDescription = "",

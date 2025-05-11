@@ -27,17 +27,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.beykoz.price_comparison_app.Data.Remote.Models.Detail.Store
 import com.beykoz.price_comparison_app.R
 import com.beykoz.price_comparison_app.UI.Common.Titles.TitleView
 import androidx.core.net.toUri
 
 @Composable
-fun StorePricesView(storeList: List<Store>){
+fun StorePricesView(storeList: Map<String,String>){
     Column {
         TitleView("Other Prices")
         storeList.forEach { item ->
-            PriceButtonView(item.logo,item.price,item.url)
+            //PriceButtonView(item.logo,item.price,item.url)
         }
     }
 }

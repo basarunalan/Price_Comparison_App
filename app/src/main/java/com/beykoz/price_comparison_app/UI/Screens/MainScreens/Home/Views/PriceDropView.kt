@@ -3,6 +3,7 @@ package com.beykoz.price_comparison_app.UI.Screens.MainScreens.Home.Views
 import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -70,6 +71,7 @@ private fun ContentView(item: BiggestPriceDrop,navController: NavController){
         .padding(vertical = 8.dp)
         .clip(RoundedCornerShape(8.dp))
         .background(MaterialTheme.colorScheme.surfaceContainer)
+        .clickable { navController.navigate("DetailScreen/${item.id}") }
 
     ){
         Row {
@@ -95,7 +97,7 @@ private fun ContentView(item: BiggestPriceDrop,navController: NavController){
                     .fillMaxSize()
                     .padding(8.dp)
                     .weight(0.35f)) {
-                Text("${item.price} ₺", fontSize = 14.sp)
+                Text(item.price, fontSize = 14.sp)
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start){
                     Icon(

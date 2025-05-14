@@ -59,7 +59,7 @@ fun DetailHeaderView(data: DetailPageResponseModel) {
                 data.image_url ?: "",
                 modifier = Modifier
                     .fillMaxSize()
-                    .weight(0.4f)
+                    .weight(0.5f)
                     .padding(horizontal = 8.dp)
             )
             Column(modifier = Modifier

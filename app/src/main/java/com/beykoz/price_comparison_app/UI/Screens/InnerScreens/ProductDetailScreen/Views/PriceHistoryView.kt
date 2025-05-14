@@ -43,13 +43,13 @@ fun PriceHistoryView(price:Double,dailyReturn:Double){
             .background(MaterialTheme.colorScheme.surfaceContainer,
                 RoundedCornerShape(8.dp)
             )) {
-            LineChartView(dataList, listOf(), dailyReturn)
+            LineChartView(dataList, dailyReturn)
         }
     }
 }
 
 @Composable
-private fun LineChartView(prices:List<Double>, dates:List<String>, dailyReturn:Double){
+private fun LineChartView(prices:List<Double>,dailyReturn:Double){
     val color = MaterialTheme.colorScheme.primary
     LineChart(
         minValue = prices.min(),

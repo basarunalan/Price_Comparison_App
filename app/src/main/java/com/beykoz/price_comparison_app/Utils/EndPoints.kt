@@ -11,4 +11,6 @@ object EndPoints {
 
     //const val favouritesPageURL = "${BASE_URL}/favourites.json"
     const val favouritesPageURL = "${BASE_URL}/favouritesnew.json"
+
+    const val getCompareProductsURL = "${BASE_URL}/compare.json"
 }

@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,12 +24,9 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.beykoz.price_comparison_app.UI.Theme.Gray
-import kotlin.math.roundToInt
 
 @Composable
 fun CustomProgressIndicator(
@@ -74,7 +68,7 @@ fun CustomProgressIndicator(
     ) {
 
         Column (modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
-            Text(text = "${indicatorValue}", color = MaterialTheme.colorScheme.primary, fontSize = 20.sp)
+            Text(text = "${indicatorValue}", color = foregroundColor, fontSize = 20.sp)
         }
     }
 }

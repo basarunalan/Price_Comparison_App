@@ -39,6 +39,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.beykoz.price_comparison_app.Data.Local.UserFavouritesData
 import com.beykoz.price_comparison_app.Data.Remote.Models.Favourites.FavouritesResponseModelItem
+import com.beykoz.price_comparison_app.UI.Common.ModelDrawer.ModelDrawer
 import com.beykoz.price_comparison_app.UI.Common.TopAppBars.MainTopBar.MainTopBar
 import com.beykoz.price_comparison_app.UI.Navigation.NavigationBarView
 import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Favourites.Views.FavouriteProductView
@@ -55,7 +56,8 @@ fun FavouritesScreen(navController: NavController ){
     val favouritesPageData by favouritesPageViewModel.favouritesData.collectAsState()
     var showSorterSheet by remember { mutableStateOf(false) }
 
-    Scaffold(
+    ModelDrawer(navController){
+        Scaffold(
         topBar = { MainTopBar(navController) },
         bottomBar = { NavigationBarView(1,navController) },
         content = { paddingValues ->
@@ -82,11 +84,12 @@ fun FavouritesScreen(navController: NavController ){
                         if (showSorterSheet) {
                             BottomSheetView(setFilterState = { showSorterSheet = it })
                         }
+                        }
                     }
                 }
             }
-        }
-    )
+        )
+    }
 }
 var selectedIndex by mutableIntStateOf(-1)
 

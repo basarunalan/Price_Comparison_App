@@ -41,6 +41,8 @@ android {
 }
 
 dependencies {
+    implementation("androidx.compose.foundation:foundation")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("androidx.compose.material:material:1.6.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.seanproctor:data-table-material3:0.10.0")

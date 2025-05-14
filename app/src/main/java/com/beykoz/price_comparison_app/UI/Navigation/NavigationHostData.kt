@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ProductDetailScreen.ProductDetailScreen
+import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Compare.CompareScreen
 import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Favourites.FavouritesScreen
 import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Home.HomeScreen
 
@@ -21,6 +22,7 @@ object NavigationHostData {
                     navController = navController
                 )
             }
+            composable("Compare") { CompareScreen(navController) }
         }
     }
 }

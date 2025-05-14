@@ -79,7 +79,7 @@ fun FavouritesHeaderView(filterState: Boolean, setFilterState: (Boolean) -> Unit
                     unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
-                    focusedContainerColor = MaterialTheme.colorScheme.background),
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer),
                 modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 12.dp)
                     .weight(0.8f)
                     .border(1.dp, MaterialTheme.colorScheme.background, RoundedCornerShape(20.dp)),

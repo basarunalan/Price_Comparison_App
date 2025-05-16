@@ -117,9 +117,9 @@ class CustomMarkerView(context: Context?, layoutResource: Int, private val label
     private val tvContent: TextView = findViewById(R.id.marker_text_view)
     override fun refreshContent(e: Entry, highlight: Highlight) {
         val xIndex = e.x.toInt()
-        val label = labels.getOrNull(xIndex)?.let { formatDate(it) } ?: "Tarih Yok"
+        val label = labels.getOrNull(xIndex)?.let { formatDate(it) } ?: "No Date"
         val valueText = StringBuilder()
-        valueText.append("Tarih: $label\n")
+        valueText.append("Date: $label\n")
         tvContent.setTextColor(Color.White.toArgb())
 
         lineDataList.forEachIndexed { index, data ->

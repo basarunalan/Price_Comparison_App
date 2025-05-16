@@ -144,7 +144,7 @@ private fun DropDownContent(
                 .shadow(elevation = 1.dp, shape = RoundedCornerShape(20.dp)),
             value = searchText,
             onValueChange = { searchText = it },
-            placeholder = { Text("Ara...") },
+            placeholder = { Text("Search...") },
             shape = RoundedCornerShape(10.dp),
             colors = TextFieldDefaults.colors(unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest),

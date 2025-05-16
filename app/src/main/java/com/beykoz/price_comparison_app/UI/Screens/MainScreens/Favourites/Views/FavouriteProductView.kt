@@ -168,7 +168,7 @@ private fun ContentView(
                         .fillMaxSize()
                         .padding(8.dp)
                         .weight(0.4f)) {
-                    Text("${item.price} ₺", fontSize = 15.sp)
+                    Text(item.price, fontSize = 15.sp)
                     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.End){
                         Icon(

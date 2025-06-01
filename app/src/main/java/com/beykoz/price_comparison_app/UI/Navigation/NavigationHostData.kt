@@ -1,5 +1,7 @@
 package com.beykoz.price_comparison_app.UI.Navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -8,8 +10,10 @@ import com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ProductDetailScre
 import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Compare.CompareScreen
 import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Favourites.FavouritesScreen
 import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Home.HomeScreen
+import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Search.SearchScreen
 
 object NavigationHostData {
+    @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     fun NavigationHost(navController: NavHostController) {
         NavHost(navController = navController, startDestination = "Home") {
@@ -23,6 +27,7 @@ object NavigationHostData {
                 )
             }
             composable("Compare") { CompareScreen(navController) }
+            composable("Search") { SearchScreen(navController) }
         }
     }
 }

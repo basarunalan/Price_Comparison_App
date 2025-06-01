@@ -1,9 +1,5 @@
 package com.beykoz.price_comparison_app.UI.Screens.MainScreens.Favourites.Views
 
-import android.os.Handler
-import android.util.Log
-import android.widget.Space
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
@@ -19,25 +15,18 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.DismissDirection
-import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
-import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.rememberDismissState
 import androidx.compose.material.rememberSwipeableState
 import androidx.compose.material.swipeable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -61,18 +50,17 @@ import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Home.Views.PriceWe
 import com.beykoz.price_comparison_app.UI.Theme.Green
 import com.beykoz.price_comparison_app.UI.Theme.Pink
 import com.beykoz.price_comparison_app.UI.Theme.Red
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 
 @Composable
 fun FavouriteProductView(navController: NavController ) {
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally,verticalArrangement = Arrangement.Center) {
-        if(filteredList.isEmpty()){
+        if(sortedList.isEmpty()){
             Spacer(modifier = Modifier.height(300.dp))
             Text(text = "No Favourite Product Found",)
         } else {
-            filteredList.forEach { item ->
+            sortedList.forEach { item ->
                 ContentView(item,navController){
                     UserFavouritesData.addOrRemoveFavourite(item.product_code)
                     //filteredList = filteredList.filter { it.productID != item.productID } // gerek yok

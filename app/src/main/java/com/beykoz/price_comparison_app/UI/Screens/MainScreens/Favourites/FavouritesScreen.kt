@@ -91,7 +91,7 @@ fun FavouritesScreen(navController: NavController ){
         )
     }
 }
-var selectedIndex by mutableIntStateOf(-1)
+var selectedSortingIndex by mutableIntStateOf(-1)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -122,7 +122,7 @@ private fun BottomSheetView(setFilterState: (Boolean) -> Unit) {
                     .fillMaxWidth()
                     .padding(start = 16.dp, end = 8.dp)
                     .clickable(onClick = {
-                        selectedIndex = index
+                        selectedSortingIndex = index
                     }),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
@@ -133,9 +133,9 @@ private fun BottomSheetView(setFilterState: (Boolean) -> Unit) {
                     style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold)
                 )
                 RadioButton(
-                    selected = selectedIndex == index,
+                    selected = selectedSortingIndex == index,
                     onClick = {
-                        selectedIndex = index
+                        selectedSortingIndex = index
                          },
                     colors = RadioButtonDefaults.colors(
                         selectedColor = Green,

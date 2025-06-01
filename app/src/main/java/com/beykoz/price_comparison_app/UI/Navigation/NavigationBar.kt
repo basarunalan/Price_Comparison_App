@@ -56,6 +56,7 @@ fun NavigationBarView(selectedItem:Int = 0,navController: NavController) {
                         when (index) {
                             0 -> navController.navigate("Home")
                             1 -> navController.navigate("Favourites")
+                            2 -> navController.navigate("Search")
                             3 -> navController.navigate("Compare")
                         }
                     }},

@@ -1,4 +1,4 @@
-package com.beykoz.price_comparison_app.UI.Screens.MainScreens.Favourites.Views
+package com.beykoz.price_comparison_app.UI.Screens.MainScreens.Search.Views
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,35 +32,37 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import com.beykoz.price_comparison_app.Data.Remote.Models.Favourites.FavouritesResponseModelItem
-import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Favourites.favouriteList
-import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Favourites.selectedSortingIndex
+import com.beykoz.price_comparison_app.Data.Remote.Models.Search.SearchPageResponseModelItem
 import com.beykoz.price_comparison_app.Utils.convertInt
 
-var sortedList by mutableStateOf(emptyList<FavouritesResponseModelItem>())
+var filteredList by mutableStateOf(emptyList<SearchPageResponseModelItem>())
 
 @Composable
-fun FavouritesHeaderView(filterState: Boolean, setFilterState: (Boolean) -> Unit) {
+fun SearchHeaderView(
+    searchList: List<SearchPageResponseModelItem>,
+    filterState: Boolean, setFilterState: (Boolean) -> Unit
+){
     var text by remember { mutableStateOf("") }
 
-    sortedList = remember(text, favouriteList, selectedSortingIndex) {
-        val sorted = if (text.isNotEmpty()) {
-            favouriteList.filter { it.model_name.contains(text, ignoreCase = true) }
+    filteredList = remember(text, searchList,selectedFilterSortingIndex) {
+        val filtered =  if (text.isNotEmpty()) {
+            searchList.filter { it.product_name.contains(text, ignoreCase = true) }
         } else {
-            favouriteList
+            searchList
         }
-
-        when (selectedSortingIndex) {
-            0 -> sorted.sortedByDescending { it.daily_return }
-            1 -> sorted.sortedBy { it.daily_return }
-            2 -> sorted.sortedBy { convertInt(it.price) }
-            3 -> sorted.sortedByDescending { convertInt(it.price) }
-            4 -> sorted.sortedBy { it.model_name.uppercase() }
-            else -> sorted
+        when (selectedFilterSortingIndex) {
+            0 -> filtered.sortedByDescending { it.product_rank }
+            1 -> filtered.sortedBy { it.product_rank }
+            2 -> filtered.sortedByDescending { it.release_date }
+            3 -> filtered.sortedBy { it.release_date }
+            4 -> filtered.sortedBy { convertInt(it.price) }
+            5 -> filtered.sortedByDescending { convertInt(it.price) }
+            6 -> filtered.sortedBy { it.product_name.uppercase() }
+            else -> filtered
         }
     }
 
-    Log.e("sorted", sortedList.toString())
+    Log.e("filtered", filteredList.toString())
 
 
     Box(
@@ -92,7 +94,7 @@ fun FavouritesHeaderView(filterState: Boolean, setFilterState: (Boolean) -> Unit
                         contentDescription = "Search") },
                 placeholder = {
                     if (text.isEmpty()) {
-                        Text("Search Favourites...", style = TextStyle(color = LightGray))
+                        Text("Search...", style = TextStyle(color = LightGray))
                     }
                 },
             )
@@ -101,7 +103,7 @@ fun FavouritesHeaderView(filterState: Boolean, setFilterState: (Boolean) -> Unit
                 modifier = Modifier.size(50.dp).padding(end = 12.dp)
             ) {
                 Icon(
-                    imageVector = Icons.Filled.FilterList,
+                    imageVector = Icons.Filled.FilterAlt,
                     contentDescription = "Geri Dön",
                     modifier = Modifier.size(44.dp),
                     tint = MaterialTheme.colorScheme.primary

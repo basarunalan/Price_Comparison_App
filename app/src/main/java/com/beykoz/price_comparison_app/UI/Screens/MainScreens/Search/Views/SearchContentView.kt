@@ -1,5 +1,6 @@
 package com.beykoz.price_comparison_app.UI.Screens.MainScreens.Search.Views
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -30,7 +32,10 @@ import com.beykoz.price_comparison_app.R
 import com.beykoz.price_comparison_app.UI.Common.Indicators.CustomProgressIndicator
 import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Home.Views.DetailAndBarChartView
 import com.beykoz.price_comparison_app.Utils.convertDouble
+import com.beykoz.price_comparison_app.Utils.extractStorageAndRam
+import com.beykoz.price_comparison_app.Utils.formaterDate
 
+@SuppressLint("NewApi")
 @Composable
 fun SearchContentView(item: SearchPageResponseModelItem,navController: NavController){
     Box(modifier = Modifier
@@ -67,7 +72,7 @@ fun SearchContentView(item: SearchPageResponseModelItem,navController: NavContro
                             .padding(end = 8.dp)
                             .weight(0.5f))
                     DetailAndBarChartView(
-                        convertDouble(item.internal)
+                        extractStorageAndRam(item.internal)?.first ?:0.0
                         ,maxValue = 1024
                         ,modifier = Modifier
                             .fillMaxWidth()
@@ -77,14 +82,14 @@ fun SearchContentView(item: SearchPageResponseModelItem,navController: NavContro
                 }
                 Row {
                     DetailAndBarChartView(
-                        convertDouble(item.internal)
+                        extractStorageAndRam(item.internal)?.second ?:0.0
                         ,maxValue = 24
                         ,modifier = Modifier
                             .fillMaxWidth()
                             .padding(end = 8.dp)
                             .weight(0.5f))
                     DetailAndBarChartView(
-                        convertDouble(item.internal)
+                        (extractStorageAndRam(item.internal)?.first ?:0.0) * 12
                         ,maxValue = 13000
                         ,modifier = Modifier
                             .fillMaxWidth()
@@ -94,15 +99,17 @@ fun SearchContentView(item: SearchPageResponseModelItem,navController: NavContro
                 }
             }
             Column (modifier = Modifier.fillMaxHeight().padding(end = 8.dp),
-                verticalArrangement = Arrangement.SpaceAround)
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.SpaceEvenly)
             {
                 CustomProgressIndicator(
-                    canvasSize = 60.dp,indicatorValue = item.product_rank.toInt(), maxIndicatorValue = 120,
+                    canvasSize = 54.dp,indicatorValue = item.product_rank.toInt(), maxIndicatorValue = 120,
                     backgroundIndicatorStrokeWidth = 20f, foregroundIndicatorStrokeWidth = 20f,
                     backgroundIndicatorColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.25f),
                     foregroundColor = MaterialTheme.colorScheme.primary
                 )
                 Text("$ ${convertDouble(item.price)}")
+                Text(formaterDate(item.release_date), fontSize = 14.sp)
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.beykoz.price_comparison_app.UI.Screens.MainScreens.Search
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,8 @@ import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Search.Views.Searc
 import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Search.Views.SearchHeaderView
 import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Search.Views.filteredList
 import com.beykoz.price_comparison_app.UI.Theme.Purple
+import com.beykoz.price_comparison_app.Utils.convertAntutu
+import com.beykoz.price_comparison_app.Utils.convertDouble
 import com.beykoz.price_comparison_app.ViewModels.SearchPageViewModel
 
 @Composable
@@ -59,7 +62,7 @@ fun SearchScreen(navController: NavController){
                                 setFilterState = { showFilterSheet = it })
                             Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
                                 horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center)
+                                verticalArrangement = Arrangement.Top)
                             {
                                 for (item in filteredList) {
                                     SearchContentView(item,navController)

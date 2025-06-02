@@ -6,8 +6,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -29,7 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -46,7 +48,8 @@ fun FilterSheetView(setFilterState: (Boolean) -> Unit) {
                 color = Green,
                 height = 8.dp,
                 width = 80.dp
-            )},
+            )
+        },
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
         onDismissRequest = { setFilterState(false) },
         sheetState = rememberModalBottomSheetState(),
@@ -60,21 +63,31 @@ fun SheetContentView() {
     var expandedButton1 by remember { mutableStateOf(false) }
     var expandedButton2 by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(modifier = Modifier.height(600.dp).padding(16.dp).verticalScroll(rememberScrollState())) {
 
         ButtonView("Sorting Options",expandedButton1,setExpandState = { expandedButton1 = it })
         if (expandedButton1) { SortingOptions() }
 
-
         ButtonView("Filter Options",expandedButton2,setExpandState = { expandedButton2 = it })
         if (expandedButton2) {
-            Column(
-                modifier = Modifier
-                    .padding(start = 16.dp, top = 8.dp)
-            ) {
-                Text("Item 2.1")
-                Text("Item 2.2")
-                Text("Item 2.3")
+
+            selectedFilterRanges.forEachIndexed { index, filterRange ->
+                FilterOptions(
+                    filterType = filterRange.filterType,
+                    currentRange = filterRange.min..filterRange.max,
+                    valueRange = when(filterRange.filterType) {
+                        FilterType.Price -> 0f..2000f
+                        FilterType.Storage -> 0f..1024f
+                        FilterType.Ram -> 0f..24f
+                        FilterType.Antutu -> 0f..2000000f
+                        FilterType.Screen -> 0f..8f
+                    },
+                    onFilterChanged = { newRange ->
+                        selectedFilterRanges = selectedFilterRanges.toMutableList().also {
+                            it[index] = it[index].copy(min = newRange.start, max = newRange.endInclusive)
+                        }
+                    }
+                )
             }
         }
     }
@@ -142,5 +155,4 @@ private fun SortingOptions() {
         }
     }
 }
-
 

@@ -33,7 +33,10 @@ import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.beykoz.price_comparison_app.Data.Remote.Models.Search.SearchPageResponseModelItem
+import com.beykoz.price_comparison_app.Utils.convertAntutu
+import com.beykoz.price_comparison_app.Utils.convertDouble
 import com.beykoz.price_comparison_app.Utils.convertInt
+import com.beykoz.price_comparison_app.Utils.extractStorageAndRam
 
 var filteredList by mutableStateOf(emptyList<SearchPageResponseModelItem>())
 
@@ -44,13 +47,14 @@ fun SearchHeaderView(
 ){
     var text by remember { mutableStateOf("") }
 
-    filteredList = remember(text, searchList,selectedFilterSortingIndex) {
-        val filtered =  if (text.isNotEmpty()) {
+    filteredList = remember(text, searchList, selectedFilterSortingIndex, selectedFilterRanges) {
+        var filtered = if (text.isNotEmpty()) {
             searchList.filter { it.product_name.contains(text, ignoreCase = true) }
         } else {
             searchList
         }
-        when (selectedFilterSortingIndex) {
+
+        filtered = when (selectedFilterSortingIndex) {
             0 -> filtered.sortedByDescending { it.product_rank }
             1 -> filtered.sortedBy { it.product_rank }
             2 -> filtered.sortedByDescending { it.release_date }
@@ -60,6 +64,22 @@ fun SearchHeaderView(
             6 -> filtered.sortedBy { it.product_name.uppercase() }
             else -> filtered
         }
+
+        selectedFilterRanges.forEach { filterRange ->
+            if (filterRange.min > 0f || filterRange.max < 2000f) {
+                filtered = filtered.filter { item ->
+                    val value = when (filterRange.filterType) {
+                        FilterType.Price -> convertDouble(item.price).toFloat()
+                        FilterType.Storage -> extractStorageAndRam(item.internal)?.first?.toFloat() ?: 0f
+                        FilterType.Ram -> extractStorageAndRam(item.internal)?.second?.toFloat() ?: 0f
+                        FilterType.Antutu -> convertAntutu(item.antutu_score?:"").toFloat()
+                        FilterType.Screen -> convertDouble(item.screen_size).toFloat()
+                    }
+                    value in filterRange.min..filterRange.max
+                }
+            }
+        }
+        filtered
     }
 
     Log.e("filtered", filteredList.toString())

@@ -3,7 +3,7 @@ package com.beykoz.price_comparison_app.Data.Remote.Models.Search
 class SearchPageResponseModel : ArrayList<SearchPageResponseModelItem>()
 
 data class SearchPageResponseModelItem(
-    val antutu_score: String,
+    val antutu_score: String?,
     val chipset: String,
     val image_url: String,
     val `internal`: String,

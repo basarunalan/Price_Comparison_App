@@ -97,7 +97,7 @@ private fun ContentView(item: MostPopular,navController: NavController){
                             .padding(end = 8.dp)
                             .weight(0.5f))
                     DetailAndBarChartView(
-                        convertDouble(item.ram)
+                        convertDouble(item.storage) * 12
                         ,maxValue = 13000
                         ,modifier = Modifier
                             .fillMaxWidth()

@@ -23,6 +23,7 @@ import com.beykoz.price_comparison_app.UI.Common.TopAppBars.InnerTopBar.InnerTop
 import com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ProductDetailScreen.Views.DetailHeaderView
 import com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ProductDetailScreen.Views.InformationTableView
 import com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ProductDetailScreen.Views.PriceHistoryView
+import com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ProductDetailScreen.Views.StorePricesView
 import com.beykoz.price_comparison_app.UI.Theme.Purple
 import com.beykoz.price_comparison_app.Utils.convertDouble
 import com.beykoz.price_comparison_app.ViewModels.DetailPageViewModel
@@ -32,18 +33,19 @@ fun ProductDetailScreen(
     productID: String,
     navController: NavController,
 ){
-
     val detailPageViewModel: DetailPageViewModel = viewModel()
     val detailPageData by detailPageViewModel.detailPageData.collectAsState()
+    val priceListData by detailPageViewModel.priceListData.collectAsState()
 
     LaunchedEffect(productID) {
         detailPageViewModel.fetchDetailPageData(productID)
+        detailPageViewModel.fetchPriceListData(productID)
     }
 
     Scaffold(
         topBar = { InnerTopBar(productID,navController) },
         content = { paddingValues ->
-            if(detailPageData == null){
+            if(detailPageData == null || priceListData == null){
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
@@ -51,14 +53,15 @@ fun ProductDetailScreen(
                     CircularProgressIndicator(color = Purple) }
             } else {
                 detailPageData?.let { data ->
+                    priceListData?.let { price ->
                     Column(modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues)
                         .verticalScroll(rememberScrollState()))
                     {
-                        DetailHeaderView(data)
+                        DetailHeaderView(data,price)
                         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                            //StorePricesView(data.stores)
+                            StorePricesView(price)
                             PriceHistoryView(convertDouble(data.features?.get("price") ?: "0.0"),data.daily_return)
                             data.display?.let { InformationTableView("Display",it) }
                             data.body?.let { InformationTableView("Body",it) }
@@ -72,6 +75,7 @@ fun ProductDetailScreen(
                             data.comms?.let { InformationTableView("Communication",it) }
                             data.launch?.let { InformationTableView("Launch",it) }
                             Spacer(modifier = Modifier.height(40.dp))
+                            }
                         }
                     }
                 }

@@ -8,6 +8,8 @@ object EndPoints {
 
     //const val detailPageURL = "${BASE_URL}/detail/"
     const val detailPageURL = "${BASE_URL}/detailnew/"
+    const val priceListURL = "${BASE_URL}/pricelistnew/"
+
 
     //const val favouritesPageURL = "${BASE_URL}/favourites.json"
     const val favouritesPageURL = "${BASE_URL}/favouritesnew.json"
@@ -15,4 +17,6 @@ object EndPoints {
     const val getCompareProductsURL = "${BASE_URL}/compare.json"
 
     const val searchPageURL = "${BASE_URL}/search.json"
+
+
 }

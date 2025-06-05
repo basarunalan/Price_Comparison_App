@@ -47,12 +47,14 @@ fun SearchHeaderView(
 ){
     var text by remember { mutableStateOf("") }
 
-    filteredList = remember(text, searchList, selectedFilterSortingIndex, selectedFilterRanges) {
+    filteredList = remember(text, searchList, selectedFilterSortingIndex, selectedFilterRanges,selectedBrands.toList()) {
         var filtered = if (text.isNotEmpty()) {
             searchList.filter { it.product_name.contains(text, ignoreCase = true) }
         } else {
             searchList
         }
+
+        //Sorting
 
         filtered = when (selectedFilterSortingIndex) {
             0 -> filtered.sortedByDescending { it.product_rank }
@@ -64,6 +66,8 @@ fun SearchHeaderView(
             6 -> filtered.sortedBy { it.product_name.uppercase() }
             else -> filtered
         }
+
+        //Range Filter
 
         selectedFilterRanges.forEach { filterRange ->
             if (filterRange.min > 0f || filterRange.max < 2000f) {
@@ -79,10 +83,17 @@ fun SearchHeaderView(
                 }
             }
         }
+
+        // Brand Filter
+        filtered = filtered.filter { item ->
+            var brand = item.product_name.split(" ").firstOrNull()?.trim() ?: ""
+            selectedBrands.contains(brand)
+        }
+
         filtered
     }
 
-    Log.e("filtered", filteredList.toString())
+    Log.e("selectedBrands", filteredList.toString())
 
 
     Box(

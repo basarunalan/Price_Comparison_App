@@ -1,14 +1,13 @@
 package com.beykoz.price_comparison_app.UI.Common.ModelDrawer
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.os.Handler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,15 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Contrast
-import androidx.compose.material.icons.filled.DirectionsCar
-import androidx.compose.material.icons.filled.Laptop
-import androidx.compose.material.icons.filled.Mail
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.PhoneAndroid
-import androidx.compose.material.icons.filled.TabletMac
-import androidx.compose.material.icons.filled.Tv
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,26 +26,23 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import kotlinx.coroutines.coroutineScope
+import coil.compose.AsyncImage
+import com.beykoz.price_comparison_app.R
+import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Search.Views.selectedBrands
+import com.beykoz.price_comparison_app.UI.Theme.DarkPurple
 import kotlinx.coroutines.launch
 
 var drawerState = DrawerState(initialValue = DrawerValue.Closed)
@@ -65,7 +52,7 @@ fun ModelDrawer(navController: NavController, screen: @Composable () -> Unit){
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet (modifier = Modifier.width(300.dp)){
+            ModalDrawerSheet (modifier = Modifier.width(300.dp), drawerContainerColor = MaterialTheme.colorScheme.primary){
                 ProfileView(navController)
             }
         }
@@ -88,9 +75,9 @@ fun ProfileView(navController: NavController) {
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(bottomEnd = 32.dp))
                 .background(MaterialTheme.colorScheme.primary),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.TopCenter
         ) {
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Row(modifier = Modifier.fillMaxWidth().padding(top = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = {
                     coroutineScope.launch {
                     drawerState.apply {
@@ -100,7 +87,7 @@ fun ProfileView(navController: NavController) {
                 {
                     Icon(
                         modifier = Modifier.size(40.dp),
-                        tint = MaterialTheme.colorScheme.background,
+                        tint = Color.White,
                         imageVector = Icons.Filled.Close,
                         contentDescription = "Close"
                     )
@@ -112,40 +99,58 @@ fun ProfileView(navController: NavController) {
             }
         }
         Column(modifier = Modifier.padding(top = 16.dp)) {
-            CategoryButtonView("Phone", Icons.Filled.PhoneAndroid)
-            CategoryButtonView("Laptop", Icons.Filled.Laptop)
-            CategoryButtonView("Tablet", Icons.Filled.TabletMac)
-            CategoryButtonView("Television", Icons.Filled.Tv)
-            CategoryButtonView("Car", Icons.Filled.DirectionsCar)
+            CategoryButtonView("https://resim.epey.com/952387/b_apple-iphone-16-pro-max-5.jpg","Apple",navController)
+            CategoryButtonView("https://resim.epey.com/1001247/m_samsung-galaxy-s25-plus-19.jpg","Samsung",navController)
+            CategoryButtonView("https://resim.epey.com/966543/b_xiaomi-15-ultra-7.png","Xiaomi",navController)
         }
     }
 }
 
 @Composable
-private fun CategoryButtonView(title: String,icon:ImageVector){
+private fun CategoryButtonView(imagePath: String, label: String,navController: NavController){
+    val coroutineScope = rememberCoroutineScope()
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
         .fillMaxWidth()
-        .height(70.dp)
+        .height(150.dp)
         .padding(8.dp)
+        .background(MaterialTheme.colorScheme.background, RoundedCornerShape(12.dp))
         .clip(RoundedCornerShape(12.dp))
-        .border(0.5.dp,MaterialTheme.colorScheme.primary, RoundedCornerShape(12.dp))
+        .clickable{
+            selectedBrands.clear()
+            selectedBrands.add(label)
+            coroutineScope.launch {
+                drawerState.apply {
+                    if (isClosed) open() else close()
+                }
+            }
+            Handler().postDelayed({
+                if (navController.currentDestination?.route != "Search") {
+                    navController.navigate("Search")
+                }
+            }, 200)
+
+        }
     ){
-        Row(modifier = Modifier.fillMaxWidth().padding(12.dp),
+        Row(modifier = Modifier.fillMaxWidth().padding(8.dp),
             verticalAlignment = Alignment.CenterVertically){
-            Icon(
-                imageVector = icon,
-                contentDescription = "Icon",
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.size(16.dp))
+            Box (modifier = Modifier.weight(0.7f), contentAlignment = Alignment.Center){
+                AsyncImage(
+                    model = imagePath,
+                    placeholder = painterResource(R.drawable.ic_launcher_background),
+                    contentDescription = "The delasign logo",
+                    contentScale = ContentScale.Fit,
+                    error = painterResource(R.drawable.ic_launcher_foreground),
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
             Text(
-                text = title,
+                text = label,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
-                modifier = Modifier.weight(1f)
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.weight(1f).padding(start = 12.dp)
             )
             Icon(
                 imageVector = Icons.Filled.ArrowForwardIos,

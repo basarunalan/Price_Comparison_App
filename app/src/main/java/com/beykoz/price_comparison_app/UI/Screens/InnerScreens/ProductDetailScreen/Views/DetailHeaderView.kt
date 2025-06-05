@@ -1,7 +1,9 @@
 package com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ProductDetailScreen.Views
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,17 +38,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import coil.compose.AsyncImage
 import com.beykoz.price_comparison_app.Data.Remote.Models.Detail.DetailPageResponseModel
+import com.beykoz.price_comparison_app.Data.Remote.Models.Detail.PriceListResponseModel
+import com.beykoz.price_comparison_app.Data.Remote.Models.Detail.Store
 import com.beykoz.price_comparison_app.Data.Remote.Models.Detail.color
 import com.beykoz.price_comparison_app.R
 import com.beykoz.price_comparison_app.UI.Common.Indicators.CustomProgressIndicator
 import com.beykoz.price_comparison_app.UI.Screens.MainScreens.Home.Views.DetailAndBarChartView
 import com.beykoz.price_comparison_app.UI.Theme.Purple
 import com.beykoz.price_comparison_app.Utils.convertDouble
+import com.beykoz.price_comparison_app.Utils.extractStorageAndRam
 
 @Composable
-fun DetailHeaderView(data: DetailPageResponseModel) {
+fun DetailHeaderView(data: DetailPageResponseModel, price: PriceListResponseModel) {
     Box(
         modifier = Modifier
             .height(300.dp)
@@ -96,7 +102,7 @@ fun DetailHeaderView(data: DetailPageResponseModel) {
                         ,labelColor = Color.Gray
                     )
                     DetailAndBarChartView(
-                        convertDouble(data.memory?.get("internal") ?: "0.0")
+                        extractStorageAndRam(data.memory?.get("internal") ?: "0.0")?.first ?:0.0
                         ,"Internal Storage"
                         ,maxValue = 1024
                         ,modifier = Modifier
@@ -108,7 +114,7 @@ fun DetailHeaderView(data: DetailPageResponseModel) {
                 }
                 Row {
                     DetailAndBarChartView(
-                        convertDouble(data.memory?.get("internal") ?: "0.0")
+                        extractStorageAndRam(data.memory?.get("internal") ?: "0.0")?.second ?:0.0
                         ,"Memory (Ram)"
                         ,maxValue = 24
                         ,modifier = Modifier
@@ -118,7 +124,7 @@ fun DetailHeaderView(data: DetailPageResponseModel) {
                         ,labelColor = Color.Gray
                     )
                     DetailAndBarChartView(
-                        convertDouble("4500.0"),
+                        (extractStorageAndRam(data.memory?.get("internal") ?: "0.0")?.first ?:0.0) * 12,
                         "Battery Capacity"
                         ,maxValue = 13000
                         ,modifier = Modifier
@@ -136,7 +142,7 @@ fun DetailHeaderView(data: DetailPageResponseModel) {
                     color(hex = "#8E44AD", name = "Purple Haze")
                 )
                 ColorsView(colorList = sampleColorList)
-                BestPriceButton("$ ${convertDouble(data.features?.get("price") ?: "0.0")}")
+                BestPriceButton(price.stores[0])
             }
         }
     }
@@ -168,7 +174,7 @@ private fun ColorsView(colorList:List<color>){
 }
 
 @Composable
-private fun BestPriceButton(price: String) {
+private fun BestPriceButton(item: Store) {
     val context = LocalContext.current
     Row(verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -176,14 +182,16 @@ private fun BestPriceButton(price: String) {
             .height(50.dp)
             .background(MaterialTheme.colorScheme.background, RoundedCornerShape(8.dp))
             .padding(horizontal = 8.dp)
-            /*.clickable {
-                val intent = Intent(Intent.ACTION_VIEW, item.url.toUri())
+            .clickable {
+                val intent = Intent(Intent.ACTION_VIEW, item.site.toUri())
                 context.startActivity(intent)
-            }*/
+            }
     )
     {
+        ImageView(item.logo,
+            modifier = Modifier.padding(4.dp).weight(0.3f))
         Text(
-            price, fontSize = 20.sp, fontWeight = FontWeight.Medium,
+            "${item.price} ₺", fontSize = 20.sp, fontWeight = FontWeight.Medium,
             modifier = Modifier.weight(0.4f))
         Icon(
             imageVector = Icons.Filled.ArrowOutward,

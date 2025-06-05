@@ -113,7 +113,7 @@ private fun ContentView(item: RecentlyAdded,navController: NavController){
                         .padding(end = 8.dp)
                         .weight(0.5f))
                     DetailAndBarChartView(
-                        convertDouble(item.ram)
+                        convertDouble(item.storage) * 12
                         ,null
                         ,Color.White
                         ,maxValue = 13000

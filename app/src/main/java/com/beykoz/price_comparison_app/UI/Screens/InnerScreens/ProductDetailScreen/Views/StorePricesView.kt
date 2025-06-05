@@ -1,12 +1,10 @@
 package com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ProductDetailScreen.Views
 
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,13 +28,14 @@ import coil.compose.AsyncImage
 import com.beykoz.price_comparison_app.R
 import com.beykoz.price_comparison_app.UI.Common.Titles.TitleView
 import androidx.core.net.toUri
+import com.beykoz.price_comparison_app.Data.Remote.Models.Detail.PriceListResponseModel
 
 @Composable
-fun StorePricesView(storeList: Map<String,String>){
+fun StorePricesView(storeList: PriceListResponseModel){
     Column {
-        TitleView("Other Prices")
-        storeList.forEach { item ->
-            //PriceButtonView(item.logo,item.price,item.url)
+        TitleView("Local Market Prices")
+        storeList.stores.forEach { item ->
+            PriceButtonView(item.logo,item.price,item.url)
         }
     }
 }

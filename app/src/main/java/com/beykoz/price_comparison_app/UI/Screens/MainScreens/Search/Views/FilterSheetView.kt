@@ -129,11 +129,12 @@ private fun ExpandableButtonView(title: String, expandState: Boolean, setExpandS
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween)
         {
-            Text(title, fontSize = 16.sp)
+            Text(title, fontSize = 18.sp, color = Color.White, fontWeight = FontWeight.Bold)
             Icon(
                 imageVector = if (expandedButton) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                 contentDescription = null,
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier.size(40.dp),
+                tint = Color.White
             )
         }
     }

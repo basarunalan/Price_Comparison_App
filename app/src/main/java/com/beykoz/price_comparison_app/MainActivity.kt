@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
 import com.beykoz.price_comparison_app.Data.Local.UserFavouritesData
 import com.beykoz.price_comparison_app.UI.Navigation.NavigationHostData.NavigationHost
+import com.beykoz.price_comparison_app.UI.Screens.InnerScreens.ChatBot.ChatBotPage
 import com.beykoz.price_comparison_app.UI.Theme.Price_Comparison_AppTheme
 
 class MainActivity : ComponentActivity() {

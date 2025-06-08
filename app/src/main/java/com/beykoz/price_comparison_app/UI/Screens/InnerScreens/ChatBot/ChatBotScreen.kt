@@ -110,7 +110,7 @@ private fun BottomContent(
                 .border(1.dp, MaterialTheme.colorScheme.background, RoundedCornerShape(12.dp)),
             value = userInput,
             onValueChange = { userInput = it },
-            placeholder = { Text("Take adwise...") }
+            placeholder = { Text("Type...") }
         )
         Button(
             modifier = Modifier.fillMaxSize().padding(vertical = 2.dp).weight(0.3f),

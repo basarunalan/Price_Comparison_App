@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Adb
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.SupportAgent
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -42,7 +43,7 @@ fun MainTopBar(navController: NavController) {
                 Icon(
                     modifier = Modifier.size(30.dp),
                     tint = MaterialTheme.colorScheme.primary,
-                    imageVector = Icons.Filled.Adb,
+                    imageVector = Icons.Filled.SupportAgent,
                     contentDescription = "Wiser"
                 )
             }
